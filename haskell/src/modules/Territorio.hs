@@ -5,6 +5,6 @@ import Tropa
 data Territorio = Territorio {
     nome :: String,
     tropas :: [Tropa],
-    vizinhos :: [Territorio]
+    vizinhos :: [String]
 }
 
