@@ -62,7 +62,9 @@ executable haskell
     main-is:          Main.hs
 
     -- Modules included in this executable, other than Main.
-    -- other-modules:
+    other-modules:  TerritorioSrv,
+                    Territorio,
+                    Tropa
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -71,7 +73,8 @@ executable haskell
     build-depends:    base ^>=4.17.2.1
 
     -- Directories containing source files.
-    hs-source-dirs:   src
+    hs-source-dirs:   src,
+                      src/modules
 
     -- Base language which the package is written in.
     default-language: GHC2021
