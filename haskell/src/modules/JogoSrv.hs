@@ -9,13 +9,6 @@ verificaVitoria jogador1 jogador2
     | continentes jogador2 >= 2 && continentes jogador1 < 2 = Just jogador1
     | otherwise = Nothing
 
--- j1 = Jogador  10 1
--- j2 = Jogador 0 2
 
-
-
--- main :: IO()
--- main = do
---     return (verificaVitoria j1 j2) >>= print
     
 
