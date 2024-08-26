@@ -8,3 +8,4 @@ data Jogo = Jogo {
     jogadores :: (Jogador, Jogador)
 }
 
+
