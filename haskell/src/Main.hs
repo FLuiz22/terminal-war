@@ -1,17 +1,19 @@
 module Main where
 
-import TerritorioSrv
 import Territorio
 import Tropa
+import JogoCtrl
 
-
+maybeToList :: Maybe [a] -> [a]
+maybeToList Nothing = []
+maybeToList (Just x) = x
 
 main :: IO ()
 main = do
     let tropa = Tropa { jogador = 1 }
-    let ter = Territorio { nome = "T1", tropas = [tropa], vizinhos = []}
-    let ter2 = Territorio { nome = "T2", tropas = [tropa], vizinhos = []}
-    let ter2N = moverTropa ter ter2 1
+    let ter = Territorio { nome = "T1", tropas = [tropa, tropa], vizinhos = ["T2"]}
+    let ter2 = Territorio { nome = "T2", tropas = [tropa], vizinhos = ["T1"]}
+    let ter2N = maybeToList (moverTropaCtrl ter ter2 1 1)
 
-    print(length (tropas (fst (ter2N))))
-    print(length (tropas (snd (ter2N))))
+    print(length (tropas (head ter2N)))
+    print(length (tropas (last ter2N)))
