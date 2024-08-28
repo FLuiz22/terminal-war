@@ -17,5 +17,5 @@ adicionaTropa ter tropa = Territorio {
     tropas = (tropas ter) ++ tropa
 }
 
-moverTropa :: Territorio -> Territorio -> Int -> (Territorio, Territorio)
-moverTropa terP terD num = (removeTropa terP num, adicionaTropa terD (take num (tropas terP)))
+moverTropa :: Territorio -> Territorio -> Int -> [Territorio]
+moverTropa terP terD num = [removeTropa terP num] ++ [adicionaTropa terD (take num (tropas terP))]
