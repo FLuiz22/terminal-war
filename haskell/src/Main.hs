@@ -3,10 +3,7 @@ module Main where
 import Territorio
 import Tropa
 import JogoCtrl
-
-maybeToList :: Maybe [a] -> [a]
-maybeToList Nothing = []
-maybeToList (Just x) = x
+import Util
 
 main :: IO ()
 main = do
