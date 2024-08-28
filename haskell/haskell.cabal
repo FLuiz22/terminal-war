@@ -68,7 +68,8 @@ executable haskell
                     JogoCtrl,
                     Jogo,
                     Jogador,
-                    Continente
+                    Continente,
+                    Util
 
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
@@ -78,7 +79,8 @@ executable haskell
 
     -- Directories containing source files.
     hs-source-dirs:   src,
-                      src/modules
+                      src/modules,
+                      src/util
 
     -- Base language which the package is written in.
     default-language: GHC2021
