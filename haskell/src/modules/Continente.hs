@@ -1,6 +1,6 @@
 module Continente where
 
 data Continente  = Continente {
-    nome :: String,
+    nomeContinente :: String,
     territorios :: [String]
 }
