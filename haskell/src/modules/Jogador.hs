@@ -1,6 +1,6 @@
 module Jogador where
 
 data Jogador = Jogador {
-    territorios :: Int,
-    continentes :: Int
+    quantidadeTerritorios :: Int,
+    quantidadeContinentes :: Int
 }

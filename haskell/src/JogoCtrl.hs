@@ -3,7 +3,6 @@ module JogoCtrl where
 import TerritorioSrv
 import Territorio
 import Jogador
-import Tropa
 import Jogo
 
 verficaTropaJg :: Tropa -> Int -> Bool
