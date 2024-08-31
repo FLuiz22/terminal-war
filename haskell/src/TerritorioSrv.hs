@@ -1,21 +1,23 @@
 module TerritorioSrv where
 
 import Territorio
-import Tropa
 
 removeTropa :: Territorio -> Int -> Territorio
-removeTropa a n = Territorio { 
-    nome = (nome a), 
-    tropas = take (length (tropas a) - n) (tropas a),
-    vizinhos = (vizinhos a)
+removeTropa ter n = Territorio {
+    nomeTerritorio = nomeTerritorio ter,
+    quantidadeTropas = quantidadeTropas ter - n,
+    vizinhos = vizinhos ter,
+    dono = dono ter
 }
 
 
-adicionaTropa :: Territorio -> [Tropa] -> Territorio
+adicionaTropa :: Territorio -> Int -> Territorio
 adicionaTropa ter tropa = Territorio {
-    nome = (nome ter),
-    tropas = (tropas ter) ++ tropa
+    nomeTerritorio = nomeTerritorio ter,
+    quantidadeTropas = quantidadeTropas ter + tropa,
+    vizinhos = vizinhos ter,
+    dono = dono ter
 }
 
 moverTropa :: Territorio -> Territorio -> Int -> [Territorio]
-moverTropa terP terD num = [removeTropa terP num] ++ [adicionaTropa terD (take num (tropas terP))]
+moverTropa terP terD num = removeTropa terP num : [adicionaTropa terD num]
