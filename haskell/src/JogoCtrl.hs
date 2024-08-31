@@ -1,6 +1,5 @@
 module JogoCtrl where
 
-import JogoSrv
 import TerritorioSrv
 import Territorio
 import Jogador
@@ -65,3 +64,8 @@ resultadoBatalha = do
     else if t_at == 1 && t_df == 1 then print(batalha [head a] [head b])
     else if t_at == 3 && t_df == 1 then print(batalha a [head b])
     else print(batalha [head a] b)
+
+verificaDomContCtrl :: Jogo -> Continente -> Jogador -> Int -> Maybe Jogador
+verificaDomContCtrl jogo cont jg idJogador = if length (verificaDomCont cont (achaTerritoriosDeJogadorCtrl jogo idJogador)) == length (territoriosContinente cont)
+    then Just (atualizaContJogador jg)
+    else Nothing
