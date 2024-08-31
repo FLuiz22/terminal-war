@@ -39,7 +39,7 @@ startGame =
         ter20 = Territorio { nomeTerritorio = "Japão", vizinhos = ["China", "Russia", "Papua Nova-Guiné", "EUA"],quantidadeDeTropas=0, dono = 3}
         ter21 = Territorio { nomeTerritorio = "Russia", vizinhos = ["Ucrânia", "Irã", "China", "Índia", "Japão"],quantidadeDeTropas=2, dono = 2}
         ter22 = Territorio { nomeTerritorio = "Índia", vizinhos = ["Arábia Saudita", "China", "Irã", "Russia"],quantidadeDeTropas=2, dono = 2}
-        ter23 = Territorio { nomeTerritorio = "Nova Zelândia", vizinhos = ["Austrália"],quantidadeDeTropas=0,quantidadeDeTropas=0, dono = 3}
+        ter23 = Territorio { nomeTerritorio = "Nova Zelândia", vizinhos = ["Austrália"],quantidadeDeTropas=0, dono = 3}
         ter24 = Territorio { nomeTerritorio = "Austrália", vizinhos = ["Nova Zelândia", "Papua Nova-Guiné","China","Madagascar"],quantidadeDeTropas=0, dono = 3}
         ter25 = Territorio { nomeTerritorio = "Papua Nova-Guiné", vizinhos = ["Austrália", "Japão"],quantidadeDeTropas=0, dono = 3}
 
