@@ -56,32 +56,25 @@ verificaVitoria jogador1 jogador2
     | quantidadeContinentes jogador2 >= 2 && quantidadeContinentes jogador1 < 2 = Just jogador1
     | otherwise = Nothing
 
-<<<<<<< HEAD
+
 achaTerritoriosDeJogador :: Jogo ->  Int -> [String]
 achaTerritoriosDeJogador jogo jogador =
 
     let lista = territorios jogo
     in map nomeTerritorio (filter (\t -> dono t == jogador) lista)
-=======
--- Funcao que retorna os territorios de um jogador especifico, 1 ou 2
-achaTerritoriosDeJogador :: Jogo ->  Int -> [Territorio]
-achaTerritoriosDeJogador jogo jogador =
-    let lista = territorios jogo
-    in filter (\t -> dono t == jogador) lista
->>>>>>> main
 
 verficaTropaJg :: Territorio -> Int -> Bool
 verficaTropaJg ter idJogador = idJogador == dono ter
 
-verficaVizinhos :: String -> [String] -> Bool
-verficaVizinhos _ [] = False
-verficaVizinhos nomeTer (x:xs)
+verificaVizinhos :: String -> [String] -> Bool
+verificaVizinhos _ [] = False
+verificaVizinhos nomeTer (x:xs)
     | nomeTer == x = True
-    | otherwise = verficaVizinhos nomeTer xs
+    | otherwise = verificaVizinhos nomeTer xs
 
 moverTropaSrv :: Territorio -> Territorio -> Int -> Maybe [Territorio]
-moverTropaSrv ter1 ter2 qntd = if quantidadeTropas ter1 - qntd <= 0 ||
-    not (verficaVizinhos (nomeTerritorio ter2) (vizinhos ter1)) || not (verficaTropaJg ter2 (dono ter1))
+moverTropaSrv ter1 ter2 qntd = if quantidadeDeTropas ter1 - qntd <= 0 ||
+    not (verificaVizinhos (nomeTerritorio ter2) (vizinhos ter1)) || not (verficaTropaJg ter2 (dono ter1))
     then Nothing
 
     else Just (moverTropa ter1 ter2 qntd)

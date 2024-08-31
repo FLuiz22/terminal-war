@@ -5,7 +5,7 @@ import Territorio
 removeTropa :: Territorio -> Int -> Territorio
 removeTropa ter n = Territorio {
     nomeTerritorio = nomeTerritorio ter,
-    quantidadeTropas = quantidadeTropas ter - n,
+    quantidadeDeTropas = quantidadeDeTropas ter - n,
     vizinhos = vizinhos ter,
     dono = dono ter
 }
@@ -14,7 +14,7 @@ removeTropa ter n = Territorio {
 adicionaTropa :: Territorio -> Int -> Territorio
 adicionaTropa ter tropa = Territorio {
     nomeTerritorio = nomeTerritorio ter,
-    quantidadeTropas = quantidadeTropas ter + tropa,
+    quantidadeDeTropas = quantidadeDeTropas ter + tropa,
     vizinhos = vizinhos ter,
     dono = dono ter
 }
