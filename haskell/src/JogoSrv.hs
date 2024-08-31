@@ -6,6 +6,11 @@ import Continente
 import Territorio
 import Jogo
 import TerritorioSrv
+import Data.Int (Int)
+import Continente
+
+
+import Data.List (delete)
 
 
 startGame:: Jogo
@@ -77,3 +82,34 @@ moverTropaSrv ter1 ter2 qntd = if quantidadeTropas ter1 - qntd <= 0 ||
     then Nothing
 
     else Just (moverTropa ter1 ter2 qntd)
+
+recebeTropas :: Jogo -> Int -> Int
+recebeTropas jogo player
+    | n_terr > 0 = calculaTropas n_terr
+    | otherwise = 0
+    where n_terr = length(achaTerritoriosDeJogador jogo player)
+
+calculaTropas :: Int -> Int
+calculaTropas x = x `div` 2
+
+distribuiTropas :: Int -> Int -> Territorio -> Maybe Territorio
+distribuiTropas player n_tropas terr
+    | verficaTropaJg terr player = Just (adicionaTropa terr n_tropas)
+    | otherwise = Nothing
+
+getTerritorio :: [Territorio] -> String -> Maybe Territorio
+getTerritorio [] _ = Nothing
+getTerritorio (x:xs) nomeTerr 
+    | nomeTerritorio x == nomeTerr = Just x
+    | otherwise = getTerritorio xs nomeTerr
+
+batalha :: [Int] -> [Int] -> [Int]
+batalha d_at d_df
+    | m1 > m2 && not (null d_m1)  && not (null d_m2) = zipWith (+) [0,-1] (batalha d_m1 d_m2)
+    | m1 <= m2 && not (null d_m1) && not (null d_m2) = zipWith (+) [-1,0] (batalha d_m1 d_m2)
+    | m1 > m2 && (null d_m1 || null d_m2) = [0,-1]
+    | m1 <= m2 && (null d_m1 || null d_m2) = [-1,0]
+    where m1 = maximum d_at
+          m2 = maximum d_df
+          d_m1 = delete m1 d_at
+          d_m2 = delete m2 d_df
