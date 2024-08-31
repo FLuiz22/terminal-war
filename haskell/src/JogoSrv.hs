@@ -55,9 +55,9 @@ verificaVitoria jogador1 jogador2
     | quantidadeContinentes jogador2 >= 2 && quantidadeContinentes jogador1 < 2 = Just jogador1
     | otherwise = Nothing
 
--- Funcao que retorna os territorios de um jogador especifico, 1 ou 2
-achaTerritoriosDeJogador :: Jogo ->  Int -> [Territorio]
-achaTerritoriosDeJogador jogo jogador = 
+achaTerritoriosDeJogador :: Jogo ->  Int -> [String]
+achaTerritoriosDeJogador jogo jogador =
+
     let lista = territorios jogo
-    in filter (\t -> dono t == jogador) lista
+    in map nomeTerritorio (filter (\t -> dono t == jogador) lista)
 

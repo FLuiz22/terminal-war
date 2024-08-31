@@ -20,7 +20,7 @@ main = do
     let jogo = Jogo {territorios=[ter,ter2]}
 
     -- let ter2N = maybeToList (moverTropaCtrl ter ter2 1 1)
-    let listaTerritorios =  achaTerritoriosDeJogador jogo 1 
+    let listaTerritorios =  achaTerritoriosDeJogadorCtrl jogo 1 
     
    
     print(listaTerritorios)
