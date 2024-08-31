@@ -5,4 +5,3 @@ data Territorio = Territorio {
     vizinhos :: [String],
     dono :: Int
 }
-
