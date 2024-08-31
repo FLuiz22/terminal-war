@@ -1,4 +1,4 @@
-module JogadorSrv where
+module JogoSrv where
 
 import Jogador
 import Data.Maybe (Maybe(Nothing))
@@ -6,18 +6,17 @@ import Continente
 import Territorio
 import Jogo
 
+
 startGame:: Jogo 
 startGame =
-    let americas = Continente {nomeContinente = "Americas", Continente.territorios=["EUA","Canadá","Brasil","Colômbia","Argentina","Chile","México"]}
-        europa = Continente {nomeContinente="Europa", territorios= ["França", "Espanha", "Ucrânia", "Itália"]}
-        africa = Continente {nomeContinente="Africa", territorios= ["Argélia", "Angola", "Egito", "África do Sul", "Madagascar"]}
-        asia = Continente {nomeContinente="Asia", territorios= ["Arábia Saudita", "Irã", "China", "Japão", "Russia", "Índia"]}
-        oceania = Continente {nomeContinente="Oceania", territorios= ["Nova Zelândia","Austrália","Papua Nova-Guiné"]}
+    let americas = Continente {nomeContinente = "Americas", territoriosContinente=["EUA","Canadá","Brasil","Colômbia","Argentina","Chile","México"]}
+        europa = Continente {nomeContinente="Europa", territoriosContinente= ["França", "Espanha", "Ucrânia", "Itália"]}
+        africa = Continente {nomeContinente="Africa", territoriosContinente= ["Argélia", "Angola", "Egito", "África do Sul", "Madagascar"]}
+        asia = Continente {nomeContinente="Asia", territoriosContinente= ["Arábia Saudita", "Irã", "China", "Japão", "Russia", "Índia"]}
+        oceania = Continente {nomeContinente="Oceania", territoriosContinente= ["Nova Zelândia","Austrália","Papua Nova-Guiné"]}
         jogador1 = Jogador {quantidadeTerritorios = 5, quantidadeContinentes = 0}
         jogador2 = Jogador {quantidadeTerritorios = 5, quantidadeContinentes = 0}
-    in  Jogo {continentes = [americas,europa,africa,asia,oceania], jogadores=(jogador1,jogador2)}
 
-    where
         ter1 = Territorio { nomeTerritorio = "EUA", vizinhos = ["Canadá", "México", "Japão"], dono = 3}
         ter2 = Territorio { nomeTerritorio = "Canadá", vizinhos = ["Eua", "México", "França"], dono = 3}
         ter3 = Territorio { nomeTerritorio = "Brasil", vizinhos = ["Argentina", "Colômbia", "Angola"], dono = 3}
@@ -43,6 +42,9 @@ startGame =
         ter23 = Territorio { nomeTerritorio = "Nova Zelândia", vizinhos = ["Austrália"], dono = 3}
         ter24 = Territorio { nomeTerritorio = "Austrália", vizinhos = ["Nova Zelândia", "Papua Nova-Guiné","China","Madagascar"], dono = 3}
         ter25 = Territorio { nomeTerritorio = "Papua Nova-Guiné", vizinhos = ["Austrália", "Japão"], dono = 3}
+
+    in  Jogo {continentes = [americas,europa,africa,asia,oceania],territorios=[ter1, ter2, ter3, ter4, ter5, ter6, ter7, ter8, ter9, ter10, ter11, ter12,
+     ter13, ter14, ter15, ter16, ter17, ter18, ter19, ter20, ter21, ter22, ter23, ter24, ter25], jogadores=(jogador1,jogador2)}
     
 
 verificaVitoria :: Jogador -> Jogador -> Maybe Jogador
@@ -52,3 +54,10 @@ verificaVitoria jogador1 jogador2
     | quantidadeContinentes jogador1 >= 2 && quantidadeContinentes jogador2 < 2 = Just jogador2
     | quantidadeContinentes jogador2 >= 2 && quantidadeContinentes jogador1 < 2 = Just jogador1
     | otherwise = Nothing
+
+-- Funcao que retorna os territorios de um jogador especifico, 1 ou 2
+achaTerritoriosDeJogador :: Jogo ->  Int -> [Territorio]
+achaTerritoriosDeJogador jogo jogador = 
+    let lista = territorios jogo
+    in filter (\t -> dono t == jogador) lista
+
