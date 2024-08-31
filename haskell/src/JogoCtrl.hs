@@ -28,13 +28,8 @@ verficaVizinhos nomeTer (x:xs)
 --     else Just (moverTropa ter1 ter2 qntd)
 
 -- Verifica caso um jogador já tenha vencido, se sim, o jogador será retornado, se nao, será retornado Nothing
-verificaVitoria :: Jogador -> Jogador -> Maybe Jogador
-verificaVitoria jogador1 jogador2
-    | quantidadeTerritorios jogador1 == 0 && quantidadeTerritorios jogador2 > 0 =  Just jogador2
-    | quantidadeTerritorios jogador2 == 0 && quantidadeTerritorios jogador1 > 0 = Just jogador1
-    | quantidadeContinentes jogador1 >= 2 && quantidadeContinentes jogador2 < 2 = Just jogador2
-    | quantidadeContinentes jogador2 >= 2 && quantidadeContinentes jogador1 < 2 = Just jogador1
-    | otherwise = Nothing
+verificaVitoriaCtrl :: Jogador -> Jogador -> Maybe Jogador
+verificaVitoriaCtrl jogador1 jogador2 = verificaVitoria jogador1 jogador2
 
 -- Inicia um jogo, é definido os continentes, os jogadores, e os territorios de cada continente
 startGameCtrl :: Jogo 
