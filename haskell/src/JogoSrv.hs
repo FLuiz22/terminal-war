@@ -5,9 +5,10 @@ import Data.Maybe (Maybe(Nothing))
 import Continente
 import Territorio
 import Jogo
+import TerritorioSrv
 
 
-startGame:: Jogo 
+startGame:: Jogo
 startGame =
     let americas = Continente {nomeContinente = "Americas", territoriosContinente=["EUA","Canadá","Brasil","Colômbia","Argentina","Chile","México"]}
         europa = Continente {nomeContinente="Europa", territoriosContinente= ["França", "Espanha", "Ucrânia", "Itália"]}
@@ -45,7 +46,7 @@ startGame =
 
     in  Jogo {continentes = [americas,europa,africa,asia,oceania],territorios=[ter1, ter2, ter3, ter4, ter5, ter6, ter7, ter8, ter9, ter10, ter11, ter12,
      ter13, ter14, ter15, ter16, ter17, ter18, ter19, ter20, ter21, ter22, ter23, ter24, ter25], jogadores=(jogador1,jogador2)}
-    
+
 
 verificaVitoria :: Jogador -> Jogador -> Maybe Jogador
 verificaVitoria jogador1 jogador2
@@ -57,7 +58,22 @@ verificaVitoria jogador1 jogador2
 
 -- Funcao que retorna os territorios de um jogador especifico, 1 ou 2
 achaTerritoriosDeJogador :: Jogo ->  Int -> [Territorio]
-achaTerritoriosDeJogador jogo jogador = 
+achaTerritoriosDeJogador jogo jogador =
     let lista = territorios jogo
     in filter (\t -> dono t == jogador) lista
 
+verficaTropaJg :: Territorio -> Int -> Bool
+verficaTropaJg ter idJogador = idJogador == dono ter
+
+verficaVizinhos :: String -> [String] -> Bool
+verficaVizinhos _ [] = False
+verficaVizinhos nomeTer (x:xs)
+    | nomeTer == x = True
+    | otherwise = verficaVizinhos nomeTer xs
+
+moverTropaSrv :: Territorio -> Territorio -> Int -> Maybe [Territorio]
+moverTropaSrv ter1 ter2 qntd = if quantidadeTropas ter1 - qntd <= 0 ||
+    not (verficaVizinhos (nomeTerritorio ter2) (vizinhos ter1)) || not (verficaTropaJg ter2 (dono ter1))
+    then Nothing
+
+    else Just (moverTropa ter1 ter2 qntd)
