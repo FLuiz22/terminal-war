@@ -78,3 +78,18 @@ moverTropaSrv ter1 ter2 qntd = if quantidadeDeTropas ter1 - qntd <= 0 ||
     then Nothing
 
     else Just (moverTropa ter1 ter2 qntd)
+
+verificaDomCont :: Continente -> [String] -> [String]
+verificaDomCont cont ters = [x |
+                                x <- territoriosContinente cont,
+                                y <- ters,
+                                x == y
+                            ]
+
+atualizaContJogador :: Jogador -> Jogador
+atualizaContJogador jg = Jogador {  quantidadeTerritorios = quantidadeTerritorios jg,
+                                    quantidadeContinentes = quantidadeContinentes jg + 1}
+
+atualizaTerJogador :: Jogador -> Jogo -> Int -> Jogador
+atualizaTerJogador jgdor jogo idJogador = Jogador {  quantidadeTerritorios = length (achaTerritoriosDeJogador jogo idJogador),
+                                                quantidadeContinentes = quantidadeContinentes jgdor}
