@@ -52,7 +52,7 @@ extra-doc-files:    CHANGELOG.md
 -- extra-source-files:
 
 common warnings
-    ghc-options: -Wall
+    ghc-options: -Wall -fprof-auto
 
 executable haskell
     -- Import common warning flags.
@@ -63,12 +63,14 @@ executable haskell
 
     -- Modules included in this executable, other than Main.
     other-modules:  TerritorioSrv,
+                    Arte,
                     Territorio,
                     JogoSrv,
                     JogoCtrl,
                     Jogo,
                     Jogador,
                     Continente,
+                    Cores,
                     Util
 
     -- LANGUAGE extensions used by modules in this package.
