@@ -188,14 +188,6 @@ exibirTelaMoverTropas = do
 exibirTelaLoopMoverTropas :: IO()
 exibirTelaLoopMoverTropas = do
 
-    putStrLn "Insira o território de onde suas tropas sairão"
-    territorioOriginalTropasInput <- getLine
-    putStrLn "Insira quantas tropas serão movidas"
-    quantTropas0 <- getLine
-    let quantTropas = read quantTropas0 :: Int
-    putStrLn "Insira o território destino"
-    territorioDestinoTropas <- getLine
-
     {-Loop Mover Tropas-}
     putStrLn "╔═══════════════════════════════════════════════════════════════════════════════════════════════════════════╗"
     putStrLn "║                                                                                                           ║"

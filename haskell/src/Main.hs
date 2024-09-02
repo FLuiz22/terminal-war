@@ -243,7 +243,7 @@ loopMovimento jogo player = do
     putStrLn "Insira o território destino"
     territorioDestinoTropas <- getLine
     let territorioDestino = head (maybeToList (getTerritorio (territorios jogo) territorioDestinoTropas))
-    let retornoMovimento = movimento jogo territorioOrigem territorioDestino quantTropas
+    let retornoMovimento = movimento territorioOrigem territorioDestino quantTropas
     let territoriosAtualizados = auxAtualizaListaDeTerritoriosFor retornoMovimento (territorios jogo)
     let jogoN = atualizaListaDeTerritorios jogo retornoMovimento
 
@@ -264,5 +264,5 @@ loopMovimento jogo player = do
                ações feitas pelo jogador.
 -}
 
-movimento :: Jogo -> Territorio -> Territorio -> Int -> [Territorio]
-movimento jogo terrOri terrDest quantTropas = moverTropaCtrl terrOri terrDest quantTropas
+movimento :: Territorio -> Territorio -> Int -> [Territorio]
+movimento terrOri terrDest quantTropas = moverTropaCtrl terrOri terrDest quantTropas
