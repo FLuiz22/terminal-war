@@ -9,7 +9,6 @@ import Jogador
 import Data.Maybe
 import Arte
 import System.Exit (exitSuccess)
-import Cores
 
 main :: IO ()
 main = do
