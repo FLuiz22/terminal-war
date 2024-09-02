@@ -18,49 +18,43 @@ import Data.List
 -}
 startGame:: Jogo
 startGame =
-    let americas = Continente {nomeContinente = "Americas", territoriosContinente=["EUA","CAN","BR","CO","ARG","CL","MX"]}
-        europa = Continente {nomeContinente="Europa", territoriosContinente= ["FR", "ES", "UA", "IT"]}
-        africa = Continente {nomeContinente="Africa", territoriosContinente= ["DZ", "AGO", "EG", "RSA", "MG"]}
-        asia = Continente {nomeContinente="Asia", territoriosContinente= ["SA", "IR", "CN", "JP", "RUS", "IN"]}
-        oceania = Continente {nomeContinente="Oceania", territoriosContinente= ["NZ","AU","PNG"]}
-        jogador1 = Jogador {quantidadeTerritorios = 3, quantidadeContinentes = 2}
+    let americas = Continente {nomeContinente = "Americas", territoriosContinente = ["EUA","CAN","BR","CO","ARG","CL","MX"]}
+        europa = Continente {nomeContinente = "Europa", territoriosContinente = ["FR", "ES", "UA", "IT"]}
+        africa = Continente {nomeContinente = "Africa", territoriosContinente = ["DZ", "AGO", "EG", "RSA", "MG"]}
+        asia = Continente {nomeContinente = "Asia", territoriosContinente = ["SA", "IR", "CN", "JP", "RUS", "IN"]}
+        oceania = Continente {nomeContinente = "Oceania", territoriosContinente = ["NZ","AU","PNG"]}
+        jogador1 = Jogador {quantidadeTerritorios = 3, quantidadeContinentes = 0}
         jogador2 = Jogador {quantidadeTerritorios = 3, quantidadeContinentes = 0}
 
-        ter1 = Territorio { nomeTerritorio = "EUA", vizinhos = ["CAN", "MX", "JP"], quantidadeDeTropas=2 , dono = 1}
-        ter2 = Territorio { nomeTerritorio = "CAN", vizinhos = ["EUA", "MX", "FR"],quantidadeDeTropas=2, dono = 1}
-        ter3 = Territorio { nomeTerritorio = "BR", vizinhos = ["ARG", "CO", "AGO"],quantidadeDeTropas = 1, dono = 1}
-        ter4 = Territorio { nomeTerritorio = "CO", vizinhos = ["CL", "BR", "ARG", "MX"],quantidadeDeTropas= 1, dono = 1}
-        ter5 = Territorio { nomeTerritorio = "ARG", vizinhos = ["CL", "BR", "CO"],quantidadeDeTropas=1, dono = 1}
-        ter6 = Territorio { nomeTerritorio = "CL", vizinhos = ["ARG", "CO"],quantidadeDeTropas=1, dono = 1}
-        ter7 = Territorio { nomeTerritorio = "MX", vizinhos = ["EUA", "CO"],quantidadeDeTropas=2, dono = 1}
+        ter1 = Territorio { nomeTerritorio = "EUA", vizinhos = ["CAN", "MX", "JP"], quantidadeDeTropas = 2 , dono = 1}
+        ter2 = Territorio { nomeTerritorio = "CAN", vizinhos = ["EUA", "MX", "FR"], quantidadeDeTropas = 2, dono = 1}
+        ter3 = Territorio { nomeTerritorio = "BR", vizinhos = ["ARG", "CO", "AGO"], quantidadeDeTropas = 3, dono = 3}
+        ter4 = Territorio { nomeTerritorio = "CO", vizinhos = ["CL", "BR", "ARG", "MX"], quantidadeDeTropas = 3, dono = 3}
+        ter5 = Territorio { nomeTerritorio = "ARG", vizinhos = ["CL", "BR", "CO"], quantidadeDeTropas = 3, dono = 3}
+        ter6 = Territorio { nomeTerritorio = "CL", vizinhos = ["ARG", "CO"], quantidadeDeTropas = 3, dono = 3}
+        ter7 = Territorio { nomeTerritorio = "MX", vizinhos = ["EUA", "CO"], quantidadeDeTropas = 2, dono = 1}
 
-        ter8 = Territorio { nomeTerritorio = "ES", vizinhos = ["FR","IT"],quantidadeDeTropas=1, dono = 3}
-        ter9 = Territorio { nomeTerritorio = "IT", vizinhos = ["FR","ES","UA"],quantidadeDeTropas=1, dono = 3}
-        ter10 = Territorio { nomeTerritorio = "UA", vizinhos = ["FR","IT","RUS"],quantidadeDeTropas=1, dono = 3}
-        ter11 = Territorio { nomeTerritorio = "FR", vizinhos = ["ES","UA","CAN"],quantidadeDeTropas=1, dono = 3}
+        ter8 = Territorio { nomeTerritorio = "ES", vizinhos = ["FR","IT"], quantidadeDeTropas = 4, dono = 3}
+        ter9 = Territorio { nomeTerritorio = "IT", vizinhos = ["FR","ES","UA"], quantidadeDeTropas = 4, dono = 3}
+        ter10 = Territorio { nomeTerritorio = "UA", vizinhos = ["FR","IT","RUS"], quantidadeDeTropas = 4, dono = 3}
+        ter11 = Territorio { nomeTerritorio = "FR", vizinhos = ["ES","UA","CAN"], quantidadeDeTropas = 4, dono = 3}
 
-        ter12 = Territorio { nomeTerritorio = "EG", vizinhos = ["SA","AGO","DZ"],quantidadeDeTropas=1, dono = 3}
-        ter13 = Territorio { nomeTerritorio = "RSA", vizinhos = ["AGO","MG"],quantidadeDeTropas=1, dono = 3}
-        ter14 = Territorio { nomeTerritorio = "AGO", vizinhos = ["RSA","EG","DZ","BR"],quantidadeDeTropas=1, dono = 3}
-        ter15 = Territorio { nomeTerritorio = "DZ", vizinhos = ["IT","ES","EG","AGO"],quantidadeDeTropas=1, dono = 3}
-        ter16 = Territorio { nomeTerritorio = "MG", vizinhos = ["RSA","AU"],quantidadeDeTropas=1, dono = 3}
+        ter12 = Territorio { nomeTerritorio = "EG", vizinhos = ["SA","AGO","DZ"], quantidadeDeTropas = 4, dono = 3}
+        ter13 = Territorio { nomeTerritorio = "RSA", vizinhos = ["AGO","MG"], quantidadeDeTropas = 4, dono = 3}
+        ter14 = Territorio { nomeTerritorio = "AGO", vizinhos = ["RSA","EG","DZ","BR"], quantidadeDeTropas = 4, dono = 3}
+        ter15 = Territorio { nomeTerritorio = "DZ", vizinhos = ["IT","ES","EG","AGO"], quantidadeDeTropas = 4, dono = 3}
+        ter16 = Territorio { nomeTerritorio = "MG", vizinhos = ["RSA","AU"], quantidadeDeTropas = 4, dono = 3}
         
-        ter17 = Territorio { nomeTerritorio = "SA", vizinhos = ["EG", "IR", "IN"],quantidadeDeTropas=1, dono = 3}
-        ter18 = Territorio { nomeTerritorio = "IR", vizinhos = ["SA", "IN"],quantidadeDeTropas=1, dono = 3}
-        ter19 = Territorio { nomeTerritorio = "CN", vizinhos = ["IN", "JP", "RUS", "AU"],quantidadeDeTropas=2, dono = 2}
-        ter20 = Territorio { nomeTerritorio = "JP", vizinhos = ["CN", "RUS", "PNG", "EUA"],quantidadeDeTropas=1, dono = 3}
-        ter21 = Territorio { nomeTerritorio = "RUS", vizinhos = ["UA", "IR", "CN", "IN", "JP"],quantidadeDeTropas=2, dono = 2}
-        ter22 = Territorio { nomeTerritorio = "IN", vizinhos = ["SA", "CN", "IR", "RUS"],quantidadeDeTropas=2, dono = 2}
+        ter17 = Territorio { nomeTerritorio = "SA", vizinhos = ["EG", "IR", "IN"], quantidadeDeTropas = 3, dono = 3}
+        ter18 = Territorio { nomeTerritorio = "IR", vizinhos = ["SA", "IN"], quantidadeDeTropas = 3, dono = 3}
+        ter19 = Territorio { nomeTerritorio = "CN", vizinhos = ["IN", "JP", "RUS", "AU"], quantidadeDeTropas = 2, dono = 2}
+        ter20 = Territorio { nomeTerritorio = "JP", vizinhos = ["CN", "RUS", "PNG", "EUA"], quantidadeDeTropas = 3, dono = 3}
+        ter21 = Territorio { nomeTerritorio = "RUS", vizinhos = ["UA", "IR", "CN", "IN", "JP"], quantidadeDeTropas = 2, dono = 2}
+        ter22 = Territorio { nomeTerritorio = "IN", vizinhos = ["SA", "CN", "IR", "RUS"], quantidadeDeTropas = 2, dono = 2}
         
-        ter23 = Territorio { nomeTerritorio = "NZ", vizinhos = ["AU"],quantidadeDeTropas=1, dono = 1}
-        ter24 = Territorio { nomeTerritorio = "AU", vizinhos = ["NZ", "PNG","CN","MG"],quantidadeDeTropas=1, dono = 1}
-        ter25 = Territorio { nomeTerritorio = "PNG", vizinhos = ["AU", "JP"],quantidadeDeTropas=1, dono = 1}
-
-        {-Americas = 15
-        Europa = 11
-        Asia = 15
-        Africa = 16
-        Oceania = 18-}
+        ter23 = Territorio { nomeTerritorio = "NZ", vizinhos = ["AU"], quantidadeDeTropas = 5, dono = 3}
+        ter24 = Territorio { nomeTerritorio = "AU", vizinhos = ["NZ", "PNG","CN","MG"], quantidadeDeTropas = 5, dono = 3}
+        ter25 = Territorio { nomeTerritorio = "PNG", vizinhos = ["AU", "JP"], quantidadeDeTropas = 5, dono = 3}
 
     in  Jogo {continentes = [americas,europa,africa,asia,oceania],territorios=[ter1, ter2, ter3, ter4, ter5, ter6, ter7, ter8, ter9, ter10, ter11, ter12,
      ter13, ter14, ter15, ter16, ter17, ter18, ter19, ter20, ter21, ter22, ter23, ter24, ter25], jogadores=(jogador1,jogador2)}
