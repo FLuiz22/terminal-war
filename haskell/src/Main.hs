@@ -214,11 +214,14 @@ ataque jogo player t_at territorioAtaque territorioDefesa = do
     let t_df =  quantidadeDeTropas territorioDefesa
     if t_df > 3 then do
         tropasPerdidas <- resultadoBatalha 3 t_at
-        putStrLn ("O territorio " ++ nomeTerritorio territorioAtaque ++ "perdeu" ++ show (tropasPerdidas !! 0) ++ "tropas" )
-        putStrLn ("O territorio " ++ nomeTerritorio territorioDefesa ++ "perdeu" ++ show (tropasPerdidas !! 1) ++ "tropas") 
+        putStrLn ("O territorio " ++ nomeTerritorio territorioAtaque ++ " perdeu " ++ show ((tropasPerdidas !! 0)*(-1)) ++ " tropa(s) e agora possui " ++ show (quantidadeDeTropas territorioAtaque + (tropasPerdidas !! 0)) ++ " tropa(s)")
+        putStrLn ("O territorio " ++ nomeTerritorio territorioDefesa ++ " perdeu " ++ show ((tropasPerdidas !! 1)*(-1)) ++ " tropa(s) e agora possui " ++ show (quantidadeDeTropas territorioDefesa + (tropasPerdidas !! 1)) ++ " tropa(s)") 
         return (adicionaRemoveTropa player tropasPerdidas territorioAtaque territorioDefesa)
     else do
         tropasPerdidas <- resultadoBatalha t_df t_at
+        putStrLn ("O territorio " ++ nomeTerritorio territorioAtaque ++ " perdeu " ++ show ((tropasPerdidas !! 0)*(-1)) ++ " tropa(s) e agora possui " ++ show (quantidadeDeTropas territorioAtaque + (tropasPerdidas !! 0)) ++ " tropa(s)")
+        putStrLn ("O territorio " ++ nomeTerritorio territorioDefesa ++ " perdeu " ++ show ((tropasPerdidas !! 1)*(-1)) ++ " tropa(s) e agora possui " ++ show (quantidadeDeTropas territorioDefesa + (tropasPerdidas !! 1)) ++ " tropa(s)") 
+
         return (adicionaRemoveTropa player tropasPerdidas territorioAtaque territorioDefesa)
 
 {-
