@@ -1,5 +1,37 @@
 :- consult('./TerritorioSrv.pl').
 
+/* Verifica caso um jogador já tenha vencido baseado nas condiçoes, um jogador esteja com 0 territórios,
+    ou um já tenha conquistado 2 continentes */
+
+verificaVitoriaSrv(Jogador1, Jogador2, Result) :-
+
+    calculaQuantidadeTerritoriosJogador(Jogador1, QuantidadeTerritorios1),
+    calculaQuantidadeTerritoriosJogador(Jogador2,QuantidadeTerritorios2),
+
+    calculaQuantidadeContinentesJogador(Jogador1,QuantidadeContinentes1),
+    calculaQuantidadeContinentesJogador(Jogador2, QuantidadeContinentes2),
+
+    (   (QuantidadeTerritorios1 =:= 0, QuantidadeTerritorios2 > 0)-> Result = 'Jogador 2';
+        (QuantidadeTerritorios2 =:= 0, QuantidadeTerritorios1 > 0)-> Result = 'Jogador 1';
+        (QuantidadeContinentes1 >= 2, QuantidadeContinentes2 < 2)-> Result = "Jogador1";
+        (QuantidadeContinentes2 >= 2, QuantidadeContinentes1 < 0)-> Result= "Jogador2";
+        Result = none
+    ).
+
+calculaQuantidadeTerritoriosJogador(Jogador,R):-
+    getTerritoriosJogador(Jogador,Terrs),
+    length(Terrs,R).
+
+calculaQuantidadeContinentesJogador(Jogador,R) :-
+    auxCalculaQuantidadeContinentesJogador(Jogador,0,R).
+
+auxCalculaQuantidadeContinentesJogador(Jogador, Quant, R) :-
+    (verificaDomContinente(Jogador, america) -> Quant1 is Quant + 1; Quant1 is Quant),
+    (verificaDomContinente(Jogador, africa) -> Quant2 is Quant1 + 1; Quant2 is Quant1),
+    (verificaDomContinente(Jogador, asia) -> Quant3 is Quant2 + 1; Quant3 is Quant2),
+    (verificaDomContinente(Jogador, europa) -> Quant4 is Quant3 + 1; Quant4 is Quant3),
+    (verificaDomContinente(Jogador, oceania) -> R is Quant4 + 1; R is Quant4).
+
 /* Move tropas de um território para outro, contanto que os dois sejam vizinhos e sejam dominados pelo mesmo jogador. */
 mover_tropa_srv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt) :-
     mover_tropa(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt).
@@ -46,22 +78,7 @@ recebeTropas(Player,N_tropas):-
     length(ListaTerr,N_terr),
     calculaTropas(N_terr,TropasRecebidas),
     N_tropas = TropasRecebidas.
-
-getTerritoriosJogador(Player,ListaTerr):-
-    get_global_variable(Player,ListaTerr).
-
-setTerritoriosJogador(Player,ListaTerr):-
-    set_global_variable(Player,ListaTerr).
-
-getTerritoriosContinente(Continente,ListaTerr):-
-    get_global_variable(Continente,ListaTerr).
-
-setTerritoriosContinente(Continente,ListaTerr):-
-    set_global_variable(Continente,ListaTerr).
-
-getVizinhos(ListaVizinhos):-
-    get_global_variable(vizinhos,ListaVizinhos).
-
+   
 verificaTerrJgdr(Player, Terr):-
     getTerritoriosJogador(Player, ListaTerr),
     member(Terr,ListaTerr).
@@ -77,8 +94,3 @@ verificaDomContinente(Player, Continente):-
     sort(0,@=<,ListaTerrPlayer,ListaTerrPlaterSort),
     sort(0,@=<,ListaTerrCont,ListaTerrContSort),
     subset(ListaTerrContSort, ListaTerrPlaterSort).
-
-addTerrJogador(Player, Terr):-
-    getTerritoriosJogador(Player,ListaTerr),
-    append([Terr],ListaTerr,ListaTerrAtualizada),
-    setTerritoriosJogador(Player,ListaTerrAtualizada).
