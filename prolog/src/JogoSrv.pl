@@ -1,7 +1,8 @@
-:- consult(['JogoCtrl.pl','./TerritorioSrv.pl']).
+:- consult('./TerritorioSrv.pl').
 
-# Verifica caso um jogador já tenha vencido baseado nas condiçoes, um jogador esteja com 0 territórios,
-# ou um já tenha conquistado 2 continentes
+/* Verifica caso um jogador já tenha vencido baseado nas condiçoes, um jogador esteja com 0 territórios,
+    ou um já tenha conquistado 2 continentes */
+
 verificaVitoriaSrv(Jogador1, Jogador2, Result) :-
 
     calculaQuantidadeTerritoriosJogador(Jogador1, QuantidadeTerritorios1),
@@ -18,11 +19,8 @@ verificaVitoriaSrv(Jogador1, Jogador2, Result) :-
     ).
 
 calculaQuantidadeTerritoriosJogador(Jogador,R):-
-    getTerritoriosJogador(Jogador,Terr),
-    auxCalculaQuantidadeTerritoriosJogador(Terr,R).
-
-auxCalculaQuantidadeTerritoriosJogador([],0).
-auxCalculaQuantidadeTerritoriosJogador([H|T],R) :- auxCalculaQuantidadeTerritoriosJogador(T,R1), R is R1 + 1.
+    getTerritoriosJogador(Jogador,Terrs),
+    length(Terrs,R).
 
 calculaQuantidadeContinentesJogador(Jogador,R) :-
     auxCalculaQuantidadeContinentesJogador(Jogador,0,R).
@@ -80,21 +78,6 @@ recebeTropas(Player,N_tropas):-
     length(ListaTerr,N_terr),
     calculaTropas(N_terr,TropasRecebidas),
     N_tropas = TropasRecebidas.
-
-getTerritoriosJogador(Player,ListaTerr):-
-    get_global_variable(Player,ListaTerr).
-
-setTerritoriosJogador(Player,ListaTerr):-
-    set_global_variable(Player,ListaTerr).
-
-getTerritoriosContinente(Continente,ListaTerr):-
-    get_global_variable(Continente,ListaTerr).
-
-setTerritoriosContinente(Continente,ListaTerr):-
-    set_global_variable(Continente,ListaTerr).
-
-getVizinhos(ListaVizinhos):-
-    get_global_variable(vizinhos,ListaVizinhos).
    
 verificaTerrJgdr(Player, Terr):-
     getTerritoriosJogador(Player, ListaTerr),
@@ -111,8 +94,3 @@ verificaDomContinente(Player, Continente):-
     sort(0,@=<,ListaTerrPlayer,ListaTerrPlaterSort),
     sort(0,@=<,ListaTerrCont,ListaTerrContSort),
     subset(ListaTerrContSort, ListaTerrPlaterSort).
-
-addTerrJogador(Player, Terr):-
-    getTerritoriosJogador(Player,ListaTerr),
-    append([Terr],ListaTerr,ListaTerrAtualizada),
-    setTerritoriosJogador(Player,ListaTerrAtualizada).
