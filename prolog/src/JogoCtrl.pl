@@ -1,4 +1,4 @@
-:- consult(['../structs.pl', './JogoSrv.pl']).
+:- consult(['./structs.pl', './JogoSrv.pl']).
 
 verificaVitoriaCtrl(Result) :-
     get_global_variable(jogador1, J1),    
