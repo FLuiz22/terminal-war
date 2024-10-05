@@ -35,11 +35,11 @@ removeTerritorioJgdr(Jogador, Territorio):-
                       os novos territórios após o deslocamento das tropas. */
 
 
-mover_tropa_ctrl(TerritorioOrigem, TerritorioDestino, NumTropas) :-
+moverTropaCtrl(TerritorioOrigem, TerritorioDestino, NumTropas) :-
     get_global_variable(territorios, Territorios),
     get_dict(TerritorioOrigem, Territorios, V1),
     V1 - NumTropas >= 1,
-    mover_tropa_srv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, Resultado),
+    moverTropaSrv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, Resultado),
     set_global_variable(territorios, Resultado).
 
 ataque(JogadorAtaque, JogadorDefesa, N_TropasAt, TerrOrigem, TerrAlvo, TropasPerdidasAt, TropasPerdidasDf) :-
@@ -68,4 +68,10 @@ perdeTerritorio(JogadorGanhou,JogadorPerdeu,TropasPerdidasAt,TropasPerdidasDf,Te
     remove_tropa(TerritorioAlvoAtualizado, TerritorioOrigem, TPAT, TerritorioOrigemAtualizado), 
     addTerrJogador(JogadorGanhou,TerritorioAlvo),
     set_global_variable(territorios, TerritorioOrigemAtualizado).
-    
+
+adicionaTropa(N_tropas, Territorio) :-
+    get_global_variable(territorios, Territorios),
+    get_dict(Territorio, Territorios, QntdAtual),
+    NovasTropas is QntdAtual + N_tropas,
+    TerritoriosAtualizados = Territorios.put([Territorios:NovasTropas]),
+    set_global_variable(territorios, TerritoriosAtualizados).

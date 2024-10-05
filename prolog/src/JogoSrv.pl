@@ -11,10 +11,10 @@ verificaVitoriaSrv(Jogador1, Jogador2, Result) :-
     calculaQuantidadeContinentesJogador(Jogador1,QuantidadeContinentes1),
     calculaQuantidadeContinentesJogador(Jogador2, QuantidadeContinentes2),
 
-    (   (QuantidadeTerritorios1 =:= 0, QuantidadeTerritorios2 > 0)-> Result = 'Jogador 2';
-        (QuantidadeTerritorios2 =:= 0, QuantidadeTerritorios1 > 0)-> Result = 'Jogador 1';
-        (QuantidadeContinentes1 >= 2, QuantidadeContinentes2 < 2)-> Result = "Jogador1";
-        (QuantidadeContinentes2 >= 2, QuantidadeContinentes1 < 0)-> Result= "Jogador2";
+    (   (QuantidadeTerritorios1 =:= 0, QuantidadeTerritorios2 > 0)-> Result = "Jogador 2";
+        (QuantidadeTerritorios2 =:= 0, QuantidadeTerritorios1 > 0)-> Result = "Jogador 1";
+        (QuantidadeContinentes1 >= 2, QuantidadeContinentes2 < 2)-> Result = "Jogador 1";
+        (QuantidadeContinentes2 >= 2, QuantidadeContinentes1 < 0)-> Result= "Jogador 2";
         Result = none
     ).
 
@@ -33,7 +33,7 @@ auxCalculaQuantidadeContinentesJogador(Jogador, Quant, R) :-
     (verificaDomContinente(Jogador, oceania) -> R is Quant4 + 1; R is Quant4).
 
 /* Move tropas de um território para outro, contanto que os dois sejam vizinhos e sejam dominados pelo mesmo jogador. */
-mover_tropa_srv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt) :-
+moverTropaSrv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt) :-
     mover_tropa(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt).
 
 somaLista([H1,T1], [H2,T2], [S,R]) :- 
