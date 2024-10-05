@@ -1,15 +1,4 @@
-:- consult('../structs.pl').
-
-/* Move tropas de um território para outro, contanto que os dois sejam vizinhos e sejam dominados pelo mesmo jogador. */
-/*mover_tropa_srv(TerritorioOrigem, TerritorioDestino, NumTropas, NovoTerritorio) :-
-    TerritorioOrigem = territorio(NomeTerritorio1, QuantidadeDeTropas1, Vizinhos1, Dono1),
-    TerritorioDestino = territorio(NomeTerritorio2, QuantidadeDeTropas2, Vizinhos2, Dono2),
-
-    QuantidadeDeTropas1Atualizado is QuantidadeDeTropas1 - NumTropas,
-    (QuantidadeDeTropas1Atualizado =< 0 ;
-    not(verifica_vizinhos(NomeTerritorio2, Vizinhos1)) ;
-    not(verifica_territorio_jgr(TerritorioDestino, Dono1)) -> NovoTerritorio = none ;
-    mover_tropa(TerritorioOrigem, TerritorioDestino, NumTropas, NovoTerritorio)).*/
+:- consult('structs.pl').
 
 somaLista([H1,T1], [H2,T2], [S,R]) :- 
     S is H1 + H2,
@@ -83,7 +72,7 @@ verificaDomContinente(Player, Continente):-
     getTerritoriosContinente(Continente, ListaTerrCont),
     sort(0,@=<,ListaTerrPlayer,ListaTerrPlaterSort),
     sort(0,@=<,ListaTerrCont,ListaTerrContSort),
-    subset(ListaTerrContSort, ListaTerrPlaterSort).
+    sameList(ListaTerrPlaterSort,ListaTerrContSort).
 
 addTerrJogador(Player, Terr):-
     getTerritoriosJogador(Player,ListaTerr),
@@ -91,6 +80,6 @@ addTerrJogador(Player, Terr):-
     setTerritoriosJogador(Player,ListaTerrAtualizada).
 
 main :-
-    set_global_variables,
-    halt.
+    set_global_variables.
+
 :- main.
