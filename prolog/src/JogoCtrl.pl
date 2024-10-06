@@ -3,7 +3,12 @@
 verificaVitoriaCtrl(Result) :-
     getTerritoriosJogador(jogador1, J1),    
     getTerritoriosJogador(jogador2, J2),
-    verificaVitoriaSrv(J1,J2,Result).
+    get_global_variable(america, America),
+    get_global_variable(europa, Europa),
+    get_global_variable(asia, Asia),
+    get_global_variable(africa, Africa),
+    get_global_variable(oceania, Oceania),
+    verificaVitoriaSrv(J1,J2,Result, America, Europa, Asia, Africa, Oceania).
 
 getTerritoriosJogador(Player,ListaTerr):-
     get_global_variable(Player,ListaTerr).
@@ -64,7 +69,7 @@ perdeTerritorio(JogadorGanhou,JogadorPerdeu,TropasPerdidasAt,TropasPerdidasDf,Te
     TPDF is TropasPerdidasDf-1, 
     TPAT is TropasPerdidasAt+1,
     remove_tropa(Territorios, TerritorioAlvo, TPDF, TerritorioAlvoAtualizado), 
-    removeTerritorioJgdr(JogadorPerdeu,TerritorioAlvo), 
+    (verificaTerrJgdr(JogadorPerdeu, TerritorioAlvo) -> removeTerritorioJgdr(JogadorPerdeu,TerritorioAlvo); true),
     remove_tropa(TerritorioAlvoAtualizado, TerritorioOrigem, TPAT, TerritorioOrigemAtualizado), 
     addTerrJogador(JogadorGanhou,TerritorioAlvo),
     set_global_variable(territorios, TerritorioOrigemAtualizado).
@@ -73,7 +78,7 @@ adicionaTropa(N_tropas, Territorio) :-
     get_global_variable(territorios, Territorios),
     get_dict(Territorio, Territorios, QntdAtual),
     NovasTropas is QntdAtual + N_tropas,
-    TerritoriosAtualizados = Territorios.put([Territorios:NovasTropas]),
+    TerritoriosAtualizados = Territorios.put([Territorio:NovasTropas]),
     set_global_variable(territorios, TerritoriosAtualizados).
 
 calculaTropas(N_terr,N_recebe):-

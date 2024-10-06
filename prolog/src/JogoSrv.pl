@@ -3,13 +3,13 @@
 /* Verifica caso um jogador já tenha vencido baseado nas condiçoes, um jogador esteja com 0 territórios,
     ou um já tenha conquistado 2 continentes */
 
-verificaVitoriaSrv(Jogador1, Jogador2, Result) :-
+verificaVitoriaSrv(Jogador1, Jogador2, Result, America, Europa, Asia, Africa, Oceania) :-
 
     calculaQuantidadeTerritoriosJogador(Jogador1, QuantidadeTerritorios1),
     calculaQuantidadeTerritoriosJogador(Jogador2,QuantidadeTerritorios2),
 
-    calculaQuantidadeContinentesJogador(Jogador1,QuantidadeContinentes1),
-    calculaQuantidadeContinentesJogador(Jogador2, QuantidadeContinentes2),
+    calculaQuantidadeContinentesJogador(Jogador1, 0, America, Africa, Asia, Europa, Oceania, QuantidadeContinentes1),
+    calculaQuantidadeContinentesJogador(Jogador2, 0, America, Africa, Asia, Europa, Oceania, QuantidadeContinentes2),
 
     (   (QuantidadeTerritorios1 =:= 0, QuantidadeTerritorios2 > 0)-> Result = "Jogador 2";
         (QuantidadeTerritorios2 =:= 0, QuantidadeTerritorios1 > 0)-> Result = "Jogador 1";
@@ -18,18 +18,15 @@ verificaVitoriaSrv(Jogador1, Jogador2, Result) :-
         Result = none
     ).
 
-calculaQuantidadeTerritoriosJogador(Jogador,R):-
+calculaQuantidadeTerritoriosJogador(Jogador, R):-
     length(Jogador,R).
 
-calculaQuantidadeContinentesJogador(Jogador,R) :-
-    auxCalculaQuantidadeContinentesJogador(Jogador,0,R).
-
-auxCalculaQuantidadeContinentesJogador(Jogador, Quant, R) :-
-    (verificaDomContinente(Jogador, america) -> Quant1 is Quant + 1; Quant1 is Quant),
-    (verificaDomContinente(Jogador, africa) -> Quant2 is Quant1 + 1; Quant2 is Quant1),
-    (verificaDomContinente(Jogador, asia) -> Quant3 is Quant2 + 1; Quant3 is Quant2),
-    (verificaDomContinente(Jogador, europa) -> Quant4 is Quant3 + 1; Quant4 is Quant3),
-    (verificaDomContinente(Jogador, oceania) -> R is Quant4 + 1; R is Quant4).
+calculaQuantidadeContinentesJogador(Jogador, Quant, America, Africa, Asia, Europa, Oceania, R) :-
+    (subset(America, Jogador) -> Quant1 is Quant + 1; Quant1 is Quant),
+    (subset(Africa, Jogador) -> Quant2 is Quant1 + 1; Quant2 is Quant1),
+    (subset(Asia, Jogador) -> Quant3 is Quant2 + 1; Quant3 is Quant2),
+    (subset(Europa, Jogador) -> Quant4 is Quant3 + 1; Quant4 is Quant3),
+    (subset(Oceania, Jogador) -> R is Quant4 + 1; R is Quant4).
 
 /* Move tropas de um território para outro, contanto que os dois sejam vizinhos e sejam dominados pelo mesmo jogador. */
 moverTropaSrv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt) :-
@@ -68,9 +65,4 @@ batalha(Dados_At,Dados_Df,R):-
     batalha(At2,Df2,R1),
     (Ataque1 > Defesa1 -> (somaLista([0,-1], R1, R2));(somaLista([-1,0], R1, R2))),
     R = R2.
-
-verificaDomContinente(Player, Continente) :-
-    getTerritoriosContinente(Continente, ListaTerrCont),
-    sort(0,@=<,ListaTerrPlayer,ListaTerrPlaterSort),
-    sort(0,@=<,ListaTerrCont,ListaTerrContSort),
-    subset(ListaTerrContSort, ListaTerrPlaterSort).
+    
