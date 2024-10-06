@@ -103,3 +103,24 @@ verificaTropasTerritorio(Terr, N_tropas) :-
     get_global_variable(territorios, Territorios),
     get_dict(Terr, Territorios, Tropas),
     Tropas - N_tropas >= 1.
+
+imprimeVizinhosETropasTerritorios(Territorio) :-
+    getVizinhos(ListaVizinhos),
+    get_dict(Territorio, ListaVizinhos, Vizinhos),
+    auxTropasTerritorios(Vizinhos, Tropas),
+    write("Territorio: "), write(Territorio), nl,
+    write("Vizinhos e Tropas: "), nl,
+    auxImprimeVizinhosETropasTerritorios(Vizinhos, Tropas).
+
+auxImprimeVizinhosETropasTerritorios([], []).
+auxImprimeVizinhosETropasTerritorios([H1|T1], [H2|T2]) :-
+    write(H1), write(" - Tropas: "), write(H2), nl,
+    auxImprimeVizinhosETropasTerritorios(T1, T2).
+
+auxTropasTerritorios([], []).
+auxTropasTerritorios([H|T], [H1|T1]) :-
+    get_global_variable(territorios, Territorios),
+    get_dict(H, Territorios, H1),
+    auxTropasTerritorios(T, T1).
+
+
