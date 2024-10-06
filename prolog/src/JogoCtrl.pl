@@ -70,13 +70,13 @@ perdeTerritorio(JogadorGanhou,JogadorPerdeu,TropasPerdidasAt,TropasPerdidasDf,Te
     set_global_variable(territorios, TerritorioOrigemAtualizado).
     
 
-imprime_territorios_jogador(Player) :-
+imprimeTerritoriosJogador(Player) :-
     getTerritoriosJogador(Player, ListaTerr),
-    imprime_territorios(ListaTerr).
+    imprimeTerritorios(ListaTerr).
 
-imprime_territorios([]) :- !. 
-imprime_territorios([Territorio|TerrRestantes]) :-
+imprimeTerritorios([]) :- !. 
+imprimeTerritorios([Territorio|TerrRestantes]) :-
     pegaVizinhosETropasTerritorios(Territorio), 
-    imprime_territorios(TerrRestantes).  
+    imprimeTerritorios(TerrRestantes).  
 
     
