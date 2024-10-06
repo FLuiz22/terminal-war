@@ -9,7 +9,18 @@ game :-
     verificaVitoriaCtrl(Result),
     (Result = none -> game ; (write("Vencedor: "), write(Result), halt)).
 
-DistribuiTodasTropas(Jogador, N_tropas) :-
+rodada(Jogador):-
+    write("Rodada "), writeln(Jogador),
+    recebeTropas(Jogador, N_TropasRecebidas),
+    distribuiTodasTropas(Jogador, N_TropasRecebidas),
+    writeln("1. Atacar"),
+    writeln("2. Mover tropas"),
+    writeln("3. Terminar rodada"),
+    read(X),
+    (X =:= 1 -> loopAtaque(Jogador); (X =:= 2 -> loopMovimento(Jogador); writeln("Fim da rodada."))).
+
+
+distribuiTodasTropas(Jogador, N_tropas) :-
     write("Você tem: "), write(N_tropas), writeln(" tropa(s) para distribuir."),
     writeln("Qual território receberá as X tropas?"),
     read(TerrAlvo),
@@ -17,13 +28,17 @@ DistribuiTodasTropas(Jogador, N_tropas) :-
     read(N_tropasAlvo),
     /*oi insira algo aqui */
     N_TropasRestantes is N_tropas - N_tropasAlvo,
-    N_TropasRestantes =\= 0 -> DistribuiTodasTropas(Jogador, N_TropasRestantes).
+    N_TropasRestantes =\= 0 -> distribuiTodasTropas(Jogador, N_TropasRestantes); writeln("Escolha uma opção: ").
 
 loopAtaque(Jogador) :-
     writeln("Insira o território de onde partirá o ataque:"),
     read(TerrOrigem),
-    writeln("Insira o território que será atacado:"),
+    /*Jogador = jogador 1 -> getTerritoriosJogador(jogador2, TerritoriosOponente); getTerritoriosJogador(jogador1, TerritoriosOponente),*/
+    getTerritoriosJogador(Jogador, TerritoriosJogador),
+    (\+ member(TerrOrigem, TerritoriosJogador) -> writeln("Territorio não pertence ao jogador."), loopAtaque(Jogador); 
+    writeln("Insira o território que será atacado:"), 
     read(TerrAlvo),
+    (member(TerrAlvo, TerritoriosJogador) -> writeln("Território já pertence ao jogador"), loopAtaque(Jogador);
     writeln("Insira quantas tropas irão atacar o território inimigo:"),
     read(N_tropasAt),
     (Jogador = jogador1 -> (ataque(jogador1, jogador2, N_tropasAt, TerrOrigem, TerrAlvo, TropasPerdidasAt, TropasPerdidasDf)); (ataque(jogador2, jogador1, N_tropasAt, TerrOrigem, TerrAlvo, TropasPerdidasAt, TropasPerdidasDf))),
@@ -31,8 +46,9 @@ loopAtaque(Jogador) :-
     write("O território "), write(TerrAlvo), write(" perdeu "), write(TropasPerdidasDf), writeln(" tropa(s)"),
     /* Tela de loop ataque */
     writeln("Continuar?"),
+    writeln("1. Sim"), writeln("2. Não"),
     read(Continue),
-    (Continue =:= 1 -> loopAtaque(Jogador); write("Fim da rodada")).
+    (Continue =:= 1 -> loopAtaque(Jogador); writeln("Fim da rodada")))).
     
 loopMovimento(Jogador) :-
 
