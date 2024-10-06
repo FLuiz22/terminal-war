@@ -1,8 +1,8 @@
 :- consult(['./structs.pl', './JogoSrv.pl']).
 
 verificaVitoriaCtrl(Result) :-
-    get_global_variable(jogador1, J1),    
-    get_global_variable(jogador2, J2),
+    getTerritoriosJogador(jogador1, J1),    
+    getTerritoriosJogador(jogador2, J2),
     verificaVitoriaSrv(J1,J2,Result).
 
 getTerritoriosJogador(Player,ListaTerr):-
@@ -75,3 +75,26 @@ adicionaTropa(N_tropas, Territorio) :-
     NovasTropas is QntdAtual + N_tropas,
     TerritoriosAtualizados = Territorios.put([Territorios:NovasTropas]),
     set_global_variable(territorios, TerritoriosAtualizados).
+
+calculaTropas(N_terr,N_recebe):-
+    (N_terr > 1 -> N_recebe is N_terr // 2; N_recebe is 1).
+
+recebeTropas(Player,N_tropas):-
+    getTerritoriosJogador(Player,ListaTerr),
+    length(ListaTerr,N_terr),
+    calculaTropas(N_terr,TropasRecebidas),
+    N_tropas = TropasRecebidas.
+
+verificaTerrJgdr(Player, Terr):-
+    getTerritoriosJogador(Player, ListaTerr),
+    member(Terr,ListaTerr).
+
+verificaVizinhos(Terr1,Terr2):-
+    getVizinhos(ListaVizinhos),
+    get_dict(Terr1,ListaVizinhos,Vizinhos),
+    member(Terr2,Vizinhos).
+
+verificaTropasTerritorio(Terr, N_tropas) :-
+    get_global_variable(territorios, Territorios),
+    get_dict(Terr, Territorios, Tropas),
+    Tropas - N_tropas >= 1.

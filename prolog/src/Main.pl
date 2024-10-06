@@ -56,13 +56,16 @@ loopMovimento(Jogador) :-
     
     writeln("Insira o território de onde suas tropas sairão:  "),
     read(TerritorioOrigem),
+    (\+ verificaTerrJgdr(Jogador, TerritorioOrigem) -> (writeln("Território não pertence ao jogador."), loopMovimento(Jogador)) ;
     writeln("Insira quantas tropas serão movidas: "),
     read(QuantidadeTropas),
+    (\+ verificaTropasTerritorio(TerritorioOrigem, QuantidadeTropas) -> (writeln("Tropas insuficientes no território"), loopMovimento(Jogador)) ;
     writeln("Insira o território: "),
-    read(TerritorioDestinoTropas),
-    moverTropaCtrl(TerritorioOrigem, TerritorioDestinoTropas, QuantidadeTropas),   
+    read(TerritorioDestino),
+    (\+ verificaTerrJgdr(Jogador, TerritorioDestino) -> (writeln("Território não pertence ao jogador."), loopMovimento(Jogador)) ;
+    (\+ verificaVizinhos(TerritorioOrigem, TerritorioDestino) -> (writeln("Território de destino não é vizinho ao território de origem."), loopMovimento(Jogador)) ;
+    moverTropaCtrl(TerritorioOrigem, TerritorioDestino, QuantidadeTropas),   
 
-    /*Falta fazer a verificacao se o territorio destino é vizinho do territorio origem*/
     exibirTelaLoopMoverTropas,
     read(Continue),
-    (Continue =:= 1 -> loopMovimento(Jogador); writeln("Fim da rodada")).
+    (Continue =:= 1 -> loopMovimento(Jogador); writeln("Fim da rodada")))))).

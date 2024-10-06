@@ -19,8 +19,7 @@ verificaVitoriaSrv(Jogador1, Jogador2, Result) :-
     ).
 
 calculaQuantidadeTerritoriosJogador(Jogador,R):-
-    getTerritoriosJogador(Jogador,Terrs),
-    length(Terrs,R).
+    length(Jogador,R).
 
 calculaQuantidadeContinentesJogador(Jogador,R) :-
     auxCalculaQuantidadeContinentesJogador(Jogador,0,R).
@@ -70,26 +69,7 @@ batalha(Dados_At,Dados_Df,R):-
     (Ataque1 > Defesa1 -> (somaLista([0,-1], R1, R2));(somaLista([-1,0], R1, R2))),
     R = R2.
 
-calculaTropas(N_terr,N_recebe):-
-    (N_terr > 1 -> N_recebe is N_terr // 2; N_recebe is 1).
-
-recebeTropas(Player,N_tropas):-
-    getTerritoriosJogador(Player,ListaTerr),
-    length(ListaTerr,N_terr),
-    calculaTropas(N_terr,TropasRecebidas),
-    N_tropas = TropasRecebidas.
-   
-verificaTerrJgdr(Player, Terr):-
-    getTerritoriosJogador(Player, ListaTerr),
-    member(Terr,ListaTerr).
-
-verificaVizinhos(Terr1,Terr2):-
-    getVizinhos(ListaVizinhos),
-    get_dict(Terr1,ListaVizinhos,Vizinhos),
-    member(Terr2,Vizinhos).
-
-verificaDomContinente(Player, Continente):-
-    getTerritoriosJogador(Player,ListaTerrPlayer),
+verificaDomContinente(Player, Continente) :-
     getTerritoriosContinente(Continente, ListaTerrCont),
     sort(0,@=<,ListaTerrPlayer,ListaTerrPlaterSort),
     sort(0,@=<,ListaTerrCont,ListaTerrContSort),
