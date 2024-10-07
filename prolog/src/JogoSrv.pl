@@ -3,37 +3,33 @@
 /* Verifica caso um jogador já tenha vencido baseado nas condiçoes, um jogador esteja com 0 territórios,
     ou um já tenha conquistado 2 continentes */
 
-verificaVitoriaSrv(Jogador1, Jogador2, Result) :-
+verificaVitoriaSrv(Jogador1, Jogador2, Result, America, Europa, Asia, Africa, Oceania) :-
 
     calculaQuantidadeTerritoriosJogador(Jogador1, QuantidadeTerritorios1),
     calculaQuantidadeTerritoriosJogador(Jogador2,QuantidadeTerritorios2),
 
-    calculaQuantidadeContinentesJogador(Jogador1,QuantidadeContinentes1),
-    calculaQuantidadeContinentesJogador(Jogador2, QuantidadeContinentes2),
+    calculaQuantidadeContinentesJogador(Jogador1, 0, America, Africa, Asia, Europa, Oceania, QuantidadeContinentes1),
+    calculaQuantidadeContinentesJogador(Jogador2, 0, America, Africa, Asia, Europa, Oceania, QuantidadeContinentes2),
 
-    (   (QuantidadeTerritorios1 =:= 0, QuantidadeTerritorios2 > 0)-> Result = 'Jogador 2';
-        (QuantidadeTerritorios2 =:= 0, QuantidadeTerritorios1 > 0)-> Result = 'Jogador 1';
-        (QuantidadeContinentes1 >= 2, QuantidadeContinentes2 < 2)-> Result = "Jogador1";
-        (QuantidadeContinentes2 >= 2, QuantidadeContinentes1 < 0)-> Result= "Jogador2";
+    (   (QuantidadeTerritorios1 =:= 0, QuantidadeTerritorios2 > 0)-> Result = "Jogador 2";
+        (QuantidadeTerritorios2 =:= 0, QuantidadeTerritorios1 > 0)-> Result = "Jogador 1";
+        (QuantidadeContinentes1 >= 2, QuantidadeContinentes2 < 2)-> Result = "Jogador 1";
+        (QuantidadeContinentes2 >= 2, QuantidadeContinentes1 < 0)-> Result= "Jogador 2";
         Result = none
     ).
 
-calculaQuantidadeTerritoriosJogador(Jogador,R):-
-    getTerritoriosJogador(Jogador,Terrs),
-    length(Terrs,R).
+calculaQuantidadeTerritoriosJogador(Jogador, R):-
+    length(Jogador,R).
 
-calculaQuantidadeContinentesJogador(Jogador,R) :-
-    auxCalculaQuantidadeContinentesJogador(Jogador,0,R).
-
-auxCalculaQuantidadeContinentesJogador(Jogador, Quant, R) :-
-    (verificaDomContinente(Jogador, america) -> Quant1 is Quant + 1; Quant1 is Quant),
-    (verificaDomContinente(Jogador, africa) -> Quant2 is Quant1 + 1; Quant2 is Quant1),
-    (verificaDomContinente(Jogador, asia) -> Quant3 is Quant2 + 1; Quant3 is Quant2),
-    (verificaDomContinente(Jogador, europa) -> Quant4 is Quant3 + 1; Quant4 is Quant3),
-    (verificaDomContinente(Jogador, oceania) -> R is Quant4 + 1; R is Quant4).
+calculaQuantidadeContinentesJogador(Jogador, Quant, America, Africa, Asia, Europa, Oceania, R) :-
+    (subset(America, Jogador) -> Quant1 is Quant + 1; Quant1 is Quant),
+    (subset(Africa, Jogador) -> Quant2 is Quant1 + 1; Quant2 is Quant1),
+    (subset(Asia, Jogador) -> Quant3 is Quant2 + 1; Quant3 is Quant2),
+    (subset(Europa, Jogador) -> Quant4 is Quant3 + 1; Quant4 is Quant3),
+    (subset(Oceania, Jogador) -> R is Quant4 + 1; R is Quant4).
 
 /* Move tropas de um território para outro, contanto que os dois sejam vizinhos e sejam dominados pelo mesmo jogador. */
-mover_tropa_srv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt) :-
+moverTropaSrv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt) :-
     mover_tropa(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt).
 
 somaLista([H1,T1], [H2,T2], [S,R]) :- 
@@ -69,28 +65,4 @@ batalha(Dados_At,Dados_Df,R):-
     batalha(At2,Df2,R1),
     (Ataque1 > Defesa1 -> (somaLista([0,-1], R1, R2));(somaLista([-1,0], R1, R2))),
     R = R2.
-
-calculaTropas(N_terr,N_recebe):-
-    (N_terr > 1 -> N_recebe is N_terr // 2; N_recebe is 1).
-
-recebeTropas(Player,N_tropas):-
-    getTerritoriosJogador(Player,ListaTerr),
-    length(ListaTerr,N_terr),
-    calculaTropas(N_terr,TropasRecebidas),
-    N_tropas = TropasRecebidas.
-   
-verificaTerrJgdr(Player, Terr):-
-    getTerritoriosJogador(Player, ListaTerr),
-    member(Terr,ListaTerr).
-
-verificaVizinhos(Terr1,Terr2):-
-    getVizinhos(ListaVizinhos),
-    get_dict(Terr1,ListaVizinhos,Vizinhos),
-    member(Terr2,Vizinhos).
-
-verificaDomContinente(Player, Continente):-
-    getTerritoriosJogador(Player,ListaTerrPlayer),
-    getTerritoriosContinente(Continente, ListaTerrCont),
-    sort(0,@=<,ListaTerrPlayer,ListaTerrPlaterSort),
-    sort(0,@=<,ListaTerrCont,ListaTerrContSort),
-    subset(ListaTerrContSort, ListaTerrPlaterSort).
+    

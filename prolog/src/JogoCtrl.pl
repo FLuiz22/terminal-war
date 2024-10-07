@@ -1,9 +1,14 @@
-:- consult(['../structs.pl', './JogoSrv.pl']).
+:- consult(['./structs.pl', './JogoSrv.pl']).
 
 verificaVitoriaCtrl(Result) :-
-    get_global_variable(jogador1, J1),    
-    get_global_variable(jogador2, J2),
-    verificaVitoriaSrv(J1,J2,Result).
+    getTerritoriosJogador(jogador1, J1),    
+    getTerritoriosJogador(jogador2, J2),
+    get_global_variable(america, America),
+    get_global_variable(europa, Europa),
+    get_global_variable(asia, Asia),
+    get_global_variable(africa, Africa),
+    get_global_variable(oceania, Oceania),
+    verificaVitoriaSrv(J1,J2,Result, America, Europa, Asia, Africa, Oceania).
 
 getTerritoriosJogador(Player,ListaTerr):-
     get_global_variable(Player,ListaTerr).
@@ -35,11 +40,11 @@ removeTerritorioJgdr(Jogador, Territorio):-
                       os novos territórios após o deslocamento das tropas. */
 
 
-mover_tropa_ctrl(TerritorioOrigem, TerritorioDestino, NumTropas) :-
+moverTropaCtrl(TerritorioOrigem, TerritorioDestino, NumTropas) :-
     get_global_variable(territorios, Territorios),
     get_dict(TerritorioOrigem, Territorios, V1),
     V1 - NumTropas >= 1,
-    mover_tropa_srv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, Resultado),
+    moverTropaSrv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, Resultado),
     set_global_variable(territorios, Resultado).
 
 ataque(JogadorAtaque, JogadorDefesa, N_TropasAt, TerrOrigem, TerrAlvo, TropasPerdidasAt, TropasPerdidasDf) :-
@@ -64,8 +69,37 @@ perdeTerritorio(JogadorGanhou,JogadorPerdeu,TropasPerdidasAt,TropasPerdidasDf,Te
     TPDF is TropasPerdidasDf-1, 
     TPAT is TropasPerdidasAt+1,
     remove_tropa(Territorios, TerritorioAlvo, TPDF, TerritorioAlvoAtualizado), 
-    removeTerritorioJgdr(JogadorPerdeu,TerritorioAlvo), 
+    (verificaTerrJgdr(JogadorPerdeu, TerritorioAlvo) -> removeTerritorioJgdr(JogadorPerdeu,TerritorioAlvo); true),
     remove_tropa(TerritorioAlvoAtualizado, TerritorioOrigem, TPAT, TerritorioOrigemAtualizado), 
     addTerrJogador(JogadorGanhou,TerritorioAlvo),
     set_global_variable(territorios, TerritorioOrigemAtualizado).
-    
+
+adicionaTropa(N_tropas, Territorio) :-
+    get_global_variable(territorios, Territorios),
+    get_dict(Territorio, Territorios, QntdAtual),
+    NovasTropas is QntdAtual + N_tropas,
+    TerritoriosAtualizados = Territorios.put([Territorio:NovasTropas]),
+    set_global_variable(territorios, TerritoriosAtualizados).
+
+calculaTropas(N_terr,N_recebe):-
+    (N_terr > 1 -> N_recebe is N_terr // 2; N_recebe is 1).
+
+recebeTropas(Player,N_tropas):-
+    getTerritoriosJogador(Player,ListaTerr),
+    length(ListaTerr,N_terr),
+    calculaTropas(N_terr,TropasRecebidas),
+    N_tropas = TropasRecebidas.
+
+verificaTerrJgdr(Player, Terr):-
+    getTerritoriosJogador(Player, ListaTerr),
+    member(Terr,ListaTerr).
+
+verificaVizinhos(Terr1,Terr2):-
+    getVizinhos(ListaVizinhos),
+    get_dict(Terr1,ListaVizinhos,Vizinhos),
+    member(Terr2,Vizinhos).
+
+verificaTropasTerritorio(Terr, N_tropas) :-
+    get_global_variable(territorios, Territorios),
+    get_dict(Terr, Territorios, Tropas),
+    Tropas - N_tropas >= 1.
