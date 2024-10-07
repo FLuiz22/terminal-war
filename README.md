@@ -6,7 +6,7 @@
 
 ## 📖 Regras do jogo
 
-Quantidade de jogadores necessárias: 2
+Quantidade de jogadores necessária: 2
 
 - No inicio do jogo, são distribuídos três territórios fixos para os dois jogadores, e uma quantidade fixa de duas tropas também será distribuída para cada um desses territórios. Os territórios que não são de nenhum jogador receberam tropas de números variados que se comportam como exércitos de ocupação (não atacam nenhum outro território, apenas se defendem de ataques realizados pelos jogadores). Após isso, começam as rodadas alternadas entre jogadores.
 
