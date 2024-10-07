@@ -70,6 +70,7 @@ perdeTerritorio(JogadorGanhou,JogadorPerdeu,TropasPerdidasAt,TropasPerdidasDf,Te
     set_global_variable(territorios, TerritorioOrigemAtualizado).
     
 
+    
 imprimeTerritoriosJogador(Player) :-
     getTerritoriosJogador(Player, ListaTerr),
     imprimeTerritorios(ListaTerr).
@@ -79,4 +80,9 @@ imprimeTerritorios([Territorio|TerrRestantes]) :-
     pegaVizinhosETropasTerritorios(Territorio), 
     imprimeTerritorios(TerrRestantes).  
 
-    
+pegaVizinhosETropasTerritorios(Territorio) :-
+    get_global_variable(territorios, Territorios),
+    get_dict(Territorio, Territorios, NumTropas),
+    format('Território: ~w, Tropas: ~w~n', [Territorio, NumTropas]),
+    getVizinhos(ListaVizinhos),
+    format('Vizinhos: ~w~n', [ListaVizinhos]).    
