@@ -1,7 +1,8 @@
 :- consult('./TerritorioSrv.pl').
 
-/* Verifica caso um jogador já tenha vencido baseado nas condiçoes, um jogador esteja com 0 territórios,
-    ou um já tenha conquistado 2 continentes */
+/*      verificaVitoriaSrv: Verifica caso um jogador já tenha vencido, se sim, 
+                        o jogador será retornado, se nao, será retornado None. */
+
 
 verificaVitoriaSrv(Jogador1, Jogador2, Result, America, Europa, Asia, Africa, Oceania) :-
 
@@ -18,8 +19,18 @@ verificaVitoriaSrv(Jogador1, Jogador2, Result, America, Europa, Asia, Africa, Oc
         Result = none
     ).
 
+
+/*      calculaQuantidadeDeTerritorios: Calcula 
+                            a quantidade de territórios que um jogador possui */
+
+
 calculaQuantidadeTerritoriosJogador(Jogador, R):-
     length(Jogador,R).
+
+
+/*      calculaQuantidadeContinentesJogador: Calcula a quantidade 
+                                    de continentes que um jogador possui */
+
 
 calculaQuantidadeContinentesJogador(Jogador, Quant, America, Africa, Asia, Europa, Oceania, R) :-
     (subset(America, Jogador) -> Quant1 is Quant + 1; Quant1 is Quant),
@@ -28,26 +39,51 @@ calculaQuantidadeContinentesJogador(Jogador, Quant, America, Africa, Asia, Europ
     (subset(Europa, Jogador) -> Quant4 is Quant3 + 1; Quant4 is Quant3),
     (subset(Oceania, Jogador) -> R is Quant4 + 1; R is Quant4).
 
-/* Move tropas de um território para outro, contanto que os dois sejam vizinhos e sejam dominados pelo mesmo jogador. */
+
+/*      moveTropaSrv: Move tropas de um território para outro, 
+                            contanto que os dois sejam vizinhos e sejam dominados pelo mesmo jogador. */
+
+
 moverTropaSrv(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt) :-
     mover_tropa(Territorios, TerritorioOrigem, TerritorioDestino, NumTropas, TerritorioAt).
+
+
+/*      somaLista: Soma os elementos de duas listas */
+
 
 somaLista([H1,T1], [H2,T2], [S,R]) :- 
     S is H1 + H2,
     R is T1 + T2.
+
+
+/*      sameList: Verifica se duas listas são iguais */
+
 
 sameList([], []).
 sameList([H1|R1], [H2|R2]):-
     H1 = H2,
     sameList(R1, R2).
 
+
+/*      removeItem: Remove o item de uma lista */
+
+
 removeItem(Y, [Y], []).
 removeItem(X, [X|Y], Y).
 removeItem(X, [Y|List], [Y|List1]):- removeItem(X,List,List1).
 
+
+/*      rollDices: sorteia os números dos dados */
+
+
 rollDices(N,R):-
     N =:= 3 -> (random(1,7,R1),random(1,7,R2),random(1,7,R3),R=[R1,R2,R3]);
     (N > 1 -> (random(1,7,R1),random(1,7,R2), R=[R1,R2]); (random(1,7,R1), R = [R1])).
+
+
+/*      batalhas: recebe os números sorteados dos dados do ataque e da defesa,
+                                é feita a verificação e o território perdedor recebe uma tupla com os territórios perdidos */
+
 
 batalhas(Dados1,Dados2,R) :-
     sort(0,@>=,Dados1,A),
@@ -56,6 +92,7 @@ batalhas(Dados1,Dados2,R) :-
     reverse(B,Dados_Df),
     batalha(Dados_At,Dados_Df,R1),
     R = R1.
+
 
 batalha(_,[],[0,0]).
 batalha([],_,[0,0]).
