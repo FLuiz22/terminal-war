@@ -12,9 +12,11 @@
 */
 game :-
     rodada(jogador1),
+    verificaVitoriaCtrl(Result1),
+    (Result1 = none -> true ; (write("Vencedor: "), writeln(Result1), exibirTelaGameOver, halt)),
     rodada(jogador2),
-    verificaVitoriaCtrl(Result),
-    (Result = none -> game ; (write("Vencedor: "), write(Result), exibirTelaGameOver, halt)).
+    verificaVitoriaCtrl(Result2),
+    (Result2 = none -> game ; (write("Vencedor: "), writeln(Result2), exibirTelaGameOver, halt)).
 
 
 /*
@@ -37,7 +39,7 @@ rodada(Jogador):-
     read(X),
     (X =:= 1 -> (loopAtaque(Jogador)); 
     (X =:= 2 -> (loopMovimento(Jogador)); 
-    writeln("Fim da rodada."))).
+    writeln("Fim da rodada."),writeln("-------------------------------------------------------------"))).
 
 
 /*      distribuiTodasTropas: Função responsável pela distribuição das tropas
@@ -51,12 +53,12 @@ rodada(Jogador):-
 
 
 distribuiTodasTropas(Jogador, N_tropas) :-
-    write("Você tem: "), write(N_tropas), writeln(" tropa(s) para distribuir."),
     imprimeGeral(Jogador),
+    write("Você tem: "), write(N_tropas), writeln(" tropa(s) para distribuir."),
     writeln("Qual território receberá as X tropas?"),
     read(TerrAlvo),
     (\+ verificaTerrJgdr(Jogador, TerrAlvo) -> (writeln("Território não pertence ao jogador."), distribuiTodasTropas(Jogador, N_tropas)) ;
-    write("Quantas tropas serão distribuidas para o território?"),
+    writeln("Quantas tropas serão distribuidas para o território?"),
     read(N_tropasAlvo),
     (N_tropasAlvo > N_tropas -> (writeln("Tropas disponíveis insuficientes."), distribuiTodasTropas(Jogador, N_tropas)) ;
     adicionaTropa(N_tropasAlvo, TerrAlvo),
@@ -118,7 +120,7 @@ loopMovimento(Jogador) :-
     writeln("Insira quantas tropas serão movidas: "),
     read(QuantidadeTropas),
     (\+ verificaTropasTerritorio(TerritorioOrigem, QuantidadeTropas) -> (writeln("Tropas insuficientes no território"), loopMovimento(Jogador)) ;
-    writeln("Insira o território: "),
+    writeln("Insira o território que receberá as tropas: "),
     read(TerritorioDestino),
     (\+ verificaTerrJgdr(Jogador, TerritorioDestino) -> (writeln("Território não pertence ao jogador."), loopMovimento(Jogador)) ;
     (\+ verificaVizinhos(TerritorioOrigem, TerritorioDestino) -> (writeln("Território de destino não é vizinho ao território de origem."), loopMovimento(Jogador)) ;
