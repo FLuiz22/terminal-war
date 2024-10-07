@@ -14,9 +14,13 @@ game :-
     rodada(jogador1),
     verificaVitoriaCtrl(Result1),
     (Result1 = none -> true ; (write("Vencedor: "), writeln(Result1), exibirTelaGameOver, halt)),
+    writeln("Fim da rodada."), 
+    writeln("-------------------------------------------------------------"),
     rodada(jogador2),
     verificaVitoriaCtrl(Result2),
-    (Result2 = none -> game ; (write("Vencedor: "), writeln(Result2), exibirTelaGameOver, halt)).
+    (Result2 = none -> (writeln("Fim da rodada."), 
+    writeln("-------------------------------------------------------------"), game) ; 
+    (write("Vencedor: "), writeln(Result2), exibirTelaGameOver, halt)).
 
 
 /*
@@ -38,8 +42,7 @@ rodada(Jogador):-
     exibirOpcoesRodada,
     read(X),
     (X =:= 1 -> (loopAtaque(Jogador)); 
-    (X =:= 2 -> (loopMovimento(Jogador)); 
-    writeln("Fim da rodada."),writeln("-------------------------------------------------------------"))).
+    (X =:= 2 -> (loopMovimento(Jogador)); true)).
 
 
 /*      distribuiTodasTropas: Função responsável pela distribuição das tropas
@@ -63,7 +66,7 @@ distribuiTodasTropas(Jogador, N_tropas) :-
     (N_tropasAlvo > N_tropas -> (writeln("Tropas disponíveis insuficientes."), distribuiTodasTropas(Jogador, N_tropas)) ;
     adicionaTropa(N_tropasAlvo, TerrAlvo),
     N_TropasRestantes is N_tropas - N_tropasAlvo,
-    N_TropasRestantes =\= 0 -> distribuiTodasTropas(Jogador, N_TropasRestantes); writeln(""))).
+    N_TropasRestantes =\= 0 -> distribuiTodasTropas(Jogador, N_TropasRestantes); true)).
 
 
 /*      loopAtaque: Função responsável pelo looping da ação de atacar.
@@ -90,13 +93,14 @@ loopAtaque(Jogador) :-
     (member(TerrAlvo, TerritoriosJogador) -> writeln("Território já pertence ao jogador"), loopAtaque(Jogador);
     writeln("Insira quantas tropas irão atacar o território inimigo:"),
     read(N_tropasAt),
+    (\+ verificaTropasTerritorio(TerrOrigem, N_tropasAt) -> (writeln("Pelo menos uma tropa deve permanecer no território (tropa de ocupação)."), loopAtaque(Jogador)) ;
     (Jogador = jogador1 -> (ataque(jogador1, jogador2, N_tropasAt, TerrOrigem, TerrAlvo, TropasPerdidasAt, TropasPerdidasDf)); (ataque(jogador2, jogador1, N_tropasAt, TerrOrigem, TerrAlvo, TropasPerdidasAt, TropasPerdidasDf))),
     write("O território "), write(TerrOrigem), write(" perdeu "), write(TropasPerdidasAt), writeln(" tropa(s)"),
     write("O território "), write(TerrAlvo), write(" perdeu "), write(TropasPerdidasDf), writeln(" tropa(s)"),
     
     exibirTelaLoopAtaque,
     read(Continue),
-    (Continue =:= 1 -> loopAtaque(Jogador); writeln("Fim da rodada")))).
+    (Continue =:= 1 -> loopAtaque(Jogador); true)))).
 
 
 /*      loopMovimento: Função responsável pelo loop da ação de mover
@@ -128,6 +132,6 @@ loopMovimento(Jogador) :-
 
     exibirTelaLoopMoverTropas,
     read(Continue),
-    (Continue =:= 1 -> loopMovimento(Jogador); writeln("Fim da rodada")))))).
+    (Continue =:= 1 -> loopMovimento(Jogador); true))))).
 
 :- exibirInicio, game.
