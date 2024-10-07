@@ -2,7 +2,7 @@
 
 ## 📋 Sobre o projeto
 
-- Terminal War é um jogo desenvolvido na linguagem haskell como proposta de projeto para a disciplina de Paradigmas de Linguagem de Programação. O projeto foi inspirado no jogo de tabuleiro War com algumas adaptações dadas as limitações de tempo e conhecimentos iniciais.
+- Terminal War é um jogo desenvolvido na linguagem haskell/prolog como proposta de projeto para a disciplina de Paradigmas de Linguagem de Programação. O projeto foi inspirado no jogo de tabuleiro War com algumas adaptações dadas as limitações de tempo e conhecimentos iniciais.
 
 ## 📖 Regras do jogo
 
@@ -40,11 +40,20 @@ Após as duas fases, a rodada termina e o outro jogador inicia a sua rodada. As 
 
 ## ⚙ Instruções para rodar o jogo
 
-- Após clonar o repositório, basta utilizar o comando abaixo e rodar o projeto.
+- Após clonar o repositório, basta acessar o respectivo diretório da versão desejada e utilizar um dos comandos abaixo para rodar o projeto.
+
+#### Haskell:
 
   ```
   cabal install random
   cabal run
   ```
 
-  
+#### Prolog:
+
+  ```
+  swipl -q -f './src/Main.pl'
+  ```
+
+##### Observação:
+- Na versão em prolog, é necessário que os inputs referentes aos territórios sejam inseridos com aspas simples (''), mas não é necessário para os números, além disso, é obrigatório colocar um ponto final (.) ao finalizar a inserção.
